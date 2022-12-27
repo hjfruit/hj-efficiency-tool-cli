@@ -1,6 +1,6 @@
 {
   "name": "efficiency-tool-cli",
-  "version": "0.01",
+  "version": "0.0.1-beta.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/types",
