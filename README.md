@@ -2,7 +2,7 @@
 
 # Install
 
-```cmd
+```js
 yarn add efficiency-tool-cli -D
 ```
 
@@ -10,12 +10,12 @@ yarn add efficiency-tool-cli -D
 
 ### 直接使用
 
-```cmd
+```js
 gen tmp-code -r gitUrl
 ```
 
 ### 配置 package.json 的脚本命令
 
-```cmd
-"gen-tmp": "npx gen tmp-code -r gitUrl"
+```js
+"gen-tmp": "npx gen tmp-code -r gitUrl" //eg. gitUrl: https://gitee.com/xxx/xxx-template.git
 ```
