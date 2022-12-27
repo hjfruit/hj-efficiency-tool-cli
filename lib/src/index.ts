@@ -68,7 +68,7 @@ program
     const promptObject = {
       type: 'list',
       name: 'tmpName',
-      message: `请选择【${absoluteDirPath}】对应模版名称`,
+      message: `请选择 ${chalk.hex('#FFA666').underline(absoluteDirPath)} 对应模版名称`,
       choices: tmpChoices,
     }
     const templateNameRes = await inquirer.prompt([promptObject])
