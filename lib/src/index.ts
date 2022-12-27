@@ -15,7 +15,7 @@ inquirer.registerPrompt('file-tree-selection', inquirerFileTreeSelection)
 const program = new Command()
 
 program
-  .command('gen-tmp-code')
+  .command('tmp-code')
   .description('gen template code')
   .option('-r, --remote [gitUrl]', '文件生成位置')
   .action(async ({ remote }) => {
