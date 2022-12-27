@@ -17,5 +17,5 @@ gen tmp-code -r gitUrl
 ### 配置 package.json 的脚本命令
 
 ```js
-"gen-tmp": "npx gen tmp-code -r gitUrl" //eg. gitUrl: https://gitee.com/xxx/xxx-template.git
+"gen-tmp": "npx gen tmp-code -r gitUrl" // eg. gitUrl: https://gitee.com/xxx/xxx-template.git
 ```
