@@ -1,4 +1,4 @@
-# efficiency-tool-cli 生成模板代码
+# efficiency-tool-cli 生成模板代码的 cli 工具
 
 # Install
 
