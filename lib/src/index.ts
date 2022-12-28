@@ -141,7 +141,7 @@ function createRouterFile(dir: string) {
   if (isExistSync(routerDir)) {
     if (!isExistSync(routerFile)) fs.writeFileSync(routerFile, '')
     if (isExistSync(routerPath)) fs.writeFileSync(routerPath, '')
-    // 写入router代码
+    // 写入router模板代码
     writeFileRouter(dir, routerFile)
     return routerDir
   }
@@ -150,7 +150,7 @@ function createRouterFile(dir: string) {
   fs.writeFileSync(routerFile, '')
   fs.writeFileSync(routerPath, '')
 
-  // 写入router代码
+  // 写入router模板代码
   writeFileRouter(dir, routerFile)
   return routerDir
 }
@@ -160,7 +160,16 @@ function writeFileRouter(dir: string, routerFile: string) {
   const routerTmpFile = path.join(dir, 'router.tsx')
   if (!isExistSync(routerTmpFile)) return
 
-  const content = fs.readFileSync(routerTmpFile).toString()
+  const tmpDir = dir.replace(path.join(process.cwd(), 'src'), '@').split('\\').join('/')
+  const tmpContent = fs.readFileSync(routerTmpFile).toString()
+  // 替换模板里面组件引入路径
+  const content = tmpContent
+    .split('\n')
+    .map((val) => {
+      return val.replace('pre-router', tmpDir)
+    })
+    .join('\n')
+
   fs.writeFileSync(routerFile, content)
 
   // 最后删除pages下面的router配置文件
