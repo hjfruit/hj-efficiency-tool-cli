@@ -16,8 +16,8 @@
     "start": "npx ts-node ./lib/index.ts"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "never-w",
+  "license": "MIT",
   "dependencies": {
     "@types/ora": "^3.2.0",
     "chalk": "4.1.2",
