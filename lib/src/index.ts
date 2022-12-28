@@ -15,34 +15,32 @@ inquirer.registerPrompt('file-tree-selection', inquirerFileTreeSelection)
 const program = new Command()
 
 program
-  .command('tmp-code')
+  .command('tmp-code [input]')
   .description('gen template code')
   .option('-r, --remote [gitUrl]', '文件生成位置')
-  .action(async ({ remote }) => {
+  .action(async (input, { remote }) => {
+    const rootPath = input || './src/pages'
+
     if (!remote) {
       // eslint-disable-next-line no-console
       console.log(chalk.bgRed('缺少模板代码仓库的远程地址'))
       process.exit(1)
     }
 
-    // 选取祖父级目录
+    // 选取模板代码容器目录层级
     const dirnameRes = await inquirer.prompt([
       {
         type: 'file-tree-selection',
         name: 'dirname',
-        root: './src/pages',
+        root: rootPath,
       },
-    ])
-    const dir = JSON.parse(JSON.stringify(dirnameRes)).dirname
-
-    // 输入远程模板代码的储存的父级目录
-    const filenameRes = await inquirer.prompt([
       {
         type: 'input',
         name: 'filename',
       },
     ])
-    const file = JSON.parse(JSON.stringify(filenameRes)).filename
+    const dir = JSON.parse(JSON.stringify(dirnameRes)).dirname
+    const file = JSON.parse(JSON.stringify(dirnameRes)).filename
     // 拼接所需要的绝对dir绝对path
     const absoluteDirPath = path.join(dir, file)
 
@@ -65,18 +63,17 @@ program
       })
     })
 
-    const promptObject = {
-      type: 'list',
-      name: 'tmpName',
-      message: `请选择 ${chalk.hex('#FFA666').underline(absoluteDirPath)} 对应模版名称`,
-      choices: tmpChoices,
-    }
-    const templateNameRes = await inquirer.prompt([promptObject])
+    const templateNameRes = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'tmpName',
+        message: `请选择 ${chalk.hex('#FFA666').underline(absoluteDirPath)} 对应模版名称`,
+        choices: tmpChoices,
+      },
+    ])
     const branchName = JSON.parse(JSON.stringify(templateNameRes)).tmpName
 
-    if (!isExistSync(absoluteDirPath)) {
-      fs.mkdirSync(absoluteDirPath, { recursive: true })
-    }
+    if (!isExistSync(absoluteDirPath)) fs.mkdirSync(absoluteDirPath, { recursive: true })
 
     oraSpinner({
       text: '⏰ fetch origin template code......',
@@ -93,8 +90,9 @@ program
             type: 'fail',
           })
         } else {
-          // 创建对应的gql和router文件
+          // 创建对应的gql文件
           createGqlFile(absoluteDirPath)
+          // 创建对应router文件
           const routerDir = createRouterFile(absoluteDirPath)
           // 最后一步格式化代码style
           formatCode([absoluteDirPath, routerDir], () => {
