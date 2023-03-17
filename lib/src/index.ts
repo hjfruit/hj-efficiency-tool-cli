@@ -143,6 +143,8 @@ function createRouterFile(dir: string) {
     if (isExistSync(routerPath)) fs.writeFileSync(routerPath, '')
     // 写入router模板代码
     writeFileRouter(dir, routerFile)
+    // 写入router path模板代码
+    writeFileRouterPath(dir, routerPath)
     return routerDir
   }
 
@@ -152,6 +154,8 @@ function createRouterFile(dir: string) {
 
   // 写入router模板代码
   writeFileRouter(dir, routerFile)
+  // 写入router path模板代码
+  writeFileRouterPath(dir, routerPath)
   return routerDir
 }
 
@@ -185,4 +189,18 @@ function formatCode(dir: string[], cb?: () => void) {
   program.on('close', () => {
     cb?.()
   })
+}
+
+// path文件写入模板配置
+function writeFileRouterPath(dir: string, pathFile: string) {
+  const routerTmpFile = path.join(dir, 'path.ts')
+
+  if (!isExistSync(routerTmpFile)) return
+
+  const tmpContent = fs.readFileSync(routerTmpFile).toString()
+
+  fs.writeFileSync(pathFile, tmpContent)
+
+  // 最后删除pages下面的router配置文件
+  if (isExistSync(routerTmpFile)) fs.rmSync(routerTmpFile)
 }
